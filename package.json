@@ -1,0 +1,34 @@
+{
+  "name": "quest-list-worker6",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "npm run db:migrate:remote && wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "db:migrate:local": "wrangler d1 migrations apply TODO_DB --local",
+    "db:migrate:remote": "wrangler d1 migrations apply TODO_DB --remote"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250525.0",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.45.0"
+  },
+  "cloudflare": {
+    "bindings": {
+      "TODO_DB": {
+        "description": "D1 database that stores quests, completion state, priorities, emojis, and R2 attachment metadata."
+      },
+      "TODO_KV": {
+        "description": "KV namespace that stores the selected theme and daily quest-board vibe."
+      },
+      "TODO_BUCKET": {
+        "description": "R2 bucket that stores optional todo attachments, also known as quest loot."
+      },
+      "ADMIN_TOKEN": {
+        "description": "Secret token for the protected `/api/admin/stats` endpoint. Use a random string."
+      }
+    }
+  }
+}
